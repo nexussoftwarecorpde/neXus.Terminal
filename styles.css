@@ -1,21 +1,25 @@
-/* Hintergrundfarbe und Textfarbe ähnlich wie in Termux */
+/* Setze den gesamten Hintergrund auf Schwarz */
 body {
-    background-color: #000000; /* Schwarz, wie Termux */
-    color: #33FF00; /* Grüne Schriftfarbe, wie Termux */
-    font-family: 'Courier New', Courier, monospace;
+    background-color: #000000; /* Schwarz */
     margin: 0;
     padding: 0;
+    font-family: 'Courier New', Courier, monospace; /* Monospace-Schrift */
+    color: #33FF00; /* Grüne Schriftfarbe für das Terminal */
 }
 
-/* Terminal */
+/* Stil für das Terminal, es nimmt die gesamte Bildschirmhöhe und -breite ein */
 #terminal {
-    height: 100vh; /* Vollbild */
-    width: 100vw; /* Vollbild */
-    font-size: 14px; /* Schriftgröße */
-    white-space: pre-wrap; /* Textumbruch aktivieren */
+    height: 100vh; /* 100% Viewport-Höhe */
+    width: 100vw; /* 100% Viewport-Breite */
 }
 
-/* Stile für den Cursor */
+/* Cursor-Stil für ein blinkendes grünes Cursor (wie in Termux) */
 .xterm-cursor {
     background-color: #33FF00; /* Grüne Cursorfarbe */
+    animation: blink-caret 1s step-end infinite; /* Cursor blinkt */
+}
+
+/* Animationsstil für den blinkenden Cursor */
+@keyframes blink-caret {
+    50% { background-color: transparent; }
 }
