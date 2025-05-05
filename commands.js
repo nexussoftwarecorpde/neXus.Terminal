@@ -1,69 +1,49 @@
-// Befehlshandhabung
-const generatePhoneNumbers = () => {
-    let numbers = [];
-    for (let i = 0; i < 100; i++) {
-        numbers.push('+49151' + Math.random().toString().slice(2, 9)); // Generiert eine Nummer
-    }
-    return numbers.join('\n');
+// commands.js
+
+// Speichert alle verfügbaren Befehle in einem Objekt
+const commands = {
+  // Standard-Befehle
+  "nxs update": () => {
+    return "Update completed!";
+  },
+  "nxs upgrade": () => {
+    return "System upgraded!";
+  },
+  "nxs help": () => {
+    return "Available commands: nxs update, nxs upgrade, nxs install <path>, nxs start <filename>";
+  },
+  "nxs install": (arg) => {
+    return `Installing ${arg}...`;
+  },
+  "nxs start": (arg) => {
+    return `Starting ${arg}...`;
+  },
+  // Hier kannst du neue Befehle hinzufügen, ohne den bestehenden Code zu ändern
 };
 
-// Der Hauptbefehlprozessor
-const processCommand = (cmd, term, commandsEnabled, isRoot) => {
-    const args = cmd.trim().split(' ');
+// Funktion, die den Befehl ausführt
+function executeCommand(command) {
+  const outputDiv = document.getElementById('output');
 
-    if (args[0] !== 'nxs') {
-        term.write('\nUnbekannter Befehl. Versuche "nxs help".');
-        return;
-    }
+  // Aufteilen des Befehls in den Befehl und die Argumente
+  const commandParts = command.split(' ');
+  const cmd = commandParts[0];
+  const args = commandParts.slice(1).join(' '); // Alles nach dem Befehl als Argument
 
-    switch (args[1]) {
-        case 'nml':
-            if (args[2] === 'execute') {
-                term.write('\n' + generatePhoneNumbers());
-            }
-            break;
+  // Überprüfen, ob der Befehl existiert
+  if (commands[cmd]) {
+    // Führe den Befehl aus und zeige das Ergebnis
+    const result = commands[cmd](args);
+    outputDiv.innerHTML += `<p>$ ${command}</p><p>${result}</p>`;
+  } else {
+    outputDiv.innerHTML += `<p>$ ${command}</p><p>Command not found</p>`;
+  }
 
-        case 'Base64':
-            if (args[2] === 'encode' && args[3]) {
-                term.write('\n' + btoa(args[3]));
-            } else if (args[2] === 'decode' && args[3]) {
-                term.write('\n' + atob(args[3]));
-            }
-            break;
+  // Scrollen zum letzten Output
+  outputDiv.scrollTop = outputDiv.scrollHeight;
+}
 
-        case 'install':
-            if (args[2] === 'c16.o0x' && args[3] === '-#') {
-                commandsEnabled = true;
-                term.write('\nBefehle freigeschaltet!');
-            }
-            break;
-
-        case 'credit':
-            if (args[2] === '_##') {
-                term.write('\n[Created from THE ARCHITEKT for neXus]');
-            }
-            break;
-
-        case 'root':
-            if (args[2] === '+##36743679953##+') {
-                isRoot = true;
-                term.write('\nRoot-Zugang gewährt!');
-            }
-            break;
-
-        case 'update':
-            if (args[2] === '-&') {
-                term.write('\nSuchen nach Updates... (simuliert)');
-            }
-            break;
-
-        case 'upgrade':
-            if (args[2] === '-&') {
-                term.write('\nSystem wird aktualisiert... (simuliert)');
-            }
-            break;
-
-        default:
-            term.write('\nUnbekannter Befehl.');
-    }
-};
+// Funktion, um neue Befehle hinzuzufügen
+function addNewCommand(commandName, commandFunction) {
+  commands[commandName] = commandFunction;
+}
