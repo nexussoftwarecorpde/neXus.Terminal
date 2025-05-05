@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nxs Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="terminal"></div>
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <script src="commands.js"></script>
+    <script>
+        
+        const term = new Terminal({ theme: { background: '#1d1f21', foreground: '#c5c8c6' } });
+        term.open(document.getElementById('terminal'));
+        let input = '';
+        let commandsEnabled = false;
+        let isRoot = false;
+
+        const prompt = () => term.write('\n$ ');
+
+        term.write('Willkommen im NXS Terminal\n');
+        prompt();
+
+        term.onData(e => {
+            if (e === '\r') {
+                handleCommand(input);
+                input = '';
+                prompt();
+            } else if (e === '\u007F') {
+                if (input.length > 0) {
+                    term.write('\b \b');
+                    input = input.slice(0, -1);
+                }
+            } else {
+                input += e;
+                term.write(e);
+            }
+        });
+
+
+        const handleCommand = (cmd) => {
+            processCommand(cmd, term, commandsEnabled, isRoot);
+        };
+    </script>
+</body>
+</html>
