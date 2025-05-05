@@ -1,11 +1,21 @@
+/* Hintergrundfarbe und Textfarbe ähnlich wie in Termux */
 body {
-    background: #1d1f21;
-    color: #c5c8c6;
-    font-family: monospace;
+    background-color: #000000; /* Schwarz, wie Termux */
+    color: #33FF00; /* Grüne Schriftfarbe, wie Termux */
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
+    padding: 0;
 }
 
+/* Terminal */
 #terminal {
-    height: 100vh;
-    width: 100vw;
+    height: 100vh; /* Vollbild */
+    width: 100vw; /* Vollbild */
+    font-size: 14px; /* Schriftgröße */
+    white-space: pre-wrap; /* Textumbruch aktivieren */
+}
+
+/* Stile für den Cursor */
+.xterm-cursor {
+    background-color: #33FF00; /* Grüne Cursorfarbe */
 }
