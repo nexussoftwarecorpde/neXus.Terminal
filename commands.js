@@ -1,11 +1,13 @@
+// Befehlshandhabung
 const generatePhoneNumbers = () => {
     let numbers = [];
     for (let i = 0; i < 100; i++) {
-        numbers.push('+49151' + Math.random().toString().slice(2, 9));
+        numbers.push('+49151' + Math.random().toString().slice(2, 9)); // Generiert eine Nummer
     }
     return numbers.join('\n');
 };
 
+// Der Hauptbefehlprozessor
 const processCommand = (cmd, term, commandsEnabled, isRoot) => {
     const args = cmd.trim().split(' ');
 
