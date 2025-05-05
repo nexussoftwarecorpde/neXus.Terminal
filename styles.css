@@ -1,25 +1,35 @@
-/* Setze den gesamten Hintergrund auf Schwarz */
+/* styles.css */
+
 body {
-    background-color: #000000; /* Schwarz */
-    margin: 0;
-    padding: 0;
-    font-family: 'Courier New', Courier, monospace; /* Monospace-Schrift */
-    color: #33FF00; /* Grüne Schriftfarbe für das Terminal */
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
-/* Stil für das Terminal, es nimmt die gesamte Bildschirmhöhe und -breite ein */
 #terminal {
-    height: 100vh; /* 100% Viewport-Höhe */
-    width: 100vw; /* 100% Viewport-Breite */
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Cursor-Stil für ein blinkendes grünes Cursor (wie in Termux) */
-.xterm-cursor {
-    background-color: #33FF00; /* Grüne Cursorfarbe */
-    animation: blink-caret 1s step-end infinite; /* Cursor blinkt */
+#output {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-bottom: 10px;
 }
 
-/* Animationsstil für den blinkenden Cursor */
-@keyframes blink-caret {
-    50% { background-color: transparent; }
+#input {
+  background-color: #333333;
+  border: none;
+  color: #00ff00;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border-radius: 5px;
 }
