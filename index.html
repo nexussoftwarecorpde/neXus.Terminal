@@ -5,41 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nxs Terminal</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Einbindung von xterm.js -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
 </head>
 <body>
-    <div id="terminal"></div> <!-- Terminal Output -->
-    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script> <!-- xterm.js für Terminal -->
-    <script src="commands.js"></script> <!-- Deine Befehlslogik -->
+    <!-- Container für das Terminal -->
+    <div id="terminal"></div> 
+    <script src="commands.js"></script> <!-- Befehlslogik -->
     <script>
-        // Terminal-Initialisierung
-        const term = new Terminal({ theme: { background: '#000000', foreground: '#33FF00' } }); // Schwarz-Grün wie Termux
+        // Terminal initialisieren
+        const term = new Terminal({
+            theme: {
+                background: '#000000', // Schwarz für den Hintergrund
+                foreground: '#33FF00' // Grüne Schriftfarbe
+            },
+            cursorBlink: true, // Cursor soll blinken
+            scrollback: 1000, // Puffer für Textverlauf
+            rows: 30, // Zeilenhöhe
+            cols: 100, // Spaltenbreite
+        });
+        
+        // Verbinde das Terminal mit dem HTML-Element
         term.open(document.getElementById('terminal'));
+
         let input = '';
         let commandsEnabled = false;
         let isRoot = false;
 
+        // Funktion, um den Prompt (Eingabeaufforderung) anzuzeigen
         const prompt = () => term.write('\n$ ');
 
+        // Initiale Begrüßung und Prompt anzeigen
         term.write('Willkommen im NXS Terminal\n');
         prompt();
 
+        // Event-Listener für Tastatureingaben
         term.onData(e => {
-            if (e === '\r') {
-                handleCommand(input);
-                input = '';
-                prompt();
-            } else if (e === '\u007F') {
+            if (e === '\r') { // Wenn die Eingabetaste gedrückt wird
+                handleCommand(input); // Befehl verarbeiten
+                input = ''; // Eingabe zurücksetzen
+                prompt(); // Neuer Prompt
+            } else if (e === '\u007F') { // Wenn die Rücktaste gedrückt wird
                 if (input.length > 0) {
                     term.write('\b \b');
-                    input = input.slice(0, -1);
+                    input = input.slice(0, -1); // Lösche letzten Buchstaben
                 }
             } else {
                 input += e;
-                term.write(e);
+                term.write(e); // Zeichen anzeigen
             }
         });
 
-        // Übergibt die Befehlsverarbeitung an die separate Datei
+        // Übergibt die Eingabe an die Befehlsverarbeitung
         const handleCommand = (cmd) => {
             processCommand(cmd, term, commandsEnabled, isRoot);
         };
